@@ -28,17 +28,32 @@ public class App {
         }
     }
 
-    static public void consultar() {
 
-        //Conectar ao banco de dados e executar a consulta
-        try (Statement comando = conexao.createStatement()) {
+    static public void consultar(int id) {
 
-            String sql = "SELECT * FROM pessoa";
+        String sql;
 
-            try (ResultSet resultado = comando.executeQuery(sql);) {
+        if(id <=0){
+
+            sql = "SELECT * FROM pessoa ";
+
+        }else{
+            sql = "SELECT * FROM pessoa WHERE id = ?";
+
+        }
+
+
+        try (PreparedStatement comando = conexao.prepareStatement(sql);) {
+            if(id > 0){
+
+                comando.setInt(1, id);
+            }
+
+
+            try (ResultSet resultado = comando.executeQuery();) {
 
                 while (resultado.next()) {
-                    int id = resultado.getInt("id");
+                     id = resultado.getInt("id");
                     String nome = resultado.getString("nome");
                     String telefone = resultado.getString("telefone");
                     int idade = resultado.getInt("idade");
@@ -50,9 +65,45 @@ public class App {
 
             }
 
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void atualizar(int id, String novoNome, String novoTelefone, String novaProfissao) {
+        //por id
+        String sql = "UPDATE pessoa set nome = ?,telefone = ?,profissao = ? where id = ?";
+
+        try (PreparedStatement comando = conexao.prepareStatement(sql)) {
+            comando.setInt(4, id);
+            comando.setString(1, novoNome);
+            comando.setString(2, novoTelefone);
+            comando.setString(3, novaProfissao);
+
+            comando.executeUpdate();
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public static void deletar(int id) {
+        //por id
+        String sql = "DELETE FROM pessoa WHERE id = ?";
+
+        try (PreparedStatement comando = conexao.prepareStatement(sql)) {
+
+            comando.setInt(1, id);
+            comando.executeUpdate();
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+
     }
 
     public static void inserir(String nome, String telefone, int idade, String profissao) {
@@ -82,8 +133,11 @@ public class App {
         Scanner teclado = new Scanner(System.in);
 
         criarConexao();
-        consultar();
-        inserir("Pedro Manuel", "92930388", 65, "cozinheiro");
+        consultar(-1);
+        //inserir("Pedro Manuel", "92930388", 65, "cozinheiro");
+        //deletar(4);
+        //atualizar(15, "Fernando","989994544","Designer gráfico");
+
 
         if (conexao != null)
             try {

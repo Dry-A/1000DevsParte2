@@ -55,7 +55,6 @@ public class PessoaDAO {
                     pessoa = new Pessoa(    resultado.getString("nome"),
                                             resultado.getString("telefone"),
                                             resultado.getString("email"));
-
                 }
             }
 

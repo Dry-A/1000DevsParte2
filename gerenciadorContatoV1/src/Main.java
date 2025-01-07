@@ -28,7 +28,7 @@ public class Main {
             //e.printStackTrace();
         }
 
-        //testando o   consultaPorId
+        //testando o consultaPorId
         try {
             System.out.println(PessoaDAO.consultarPorId(1));
 
@@ -36,7 +36,6 @@ public class Main {
 
             e.printStackTrace();
             System.out.println("Eita bebê, a consulta por id miou 🐈‍⬛");
-
         }
 
         //guarda a opcao selecionada pelo usuario no menu

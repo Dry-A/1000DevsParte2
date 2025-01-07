@@ -49,6 +49,7 @@ CREATE TABLE pessoa (
     profissao VARCHAR(50),
     renda FLOAT
 );
+```
 
 
 
@@ -63,7 +64,8 @@ CREATE TABLE pessoa (
    - **No VS Code**  
      - Baixe o arquivo `mysql-connector-java-8.0.xx.jar` [aqui](https://dev.mysql.com/downloads/connector/j/).  
      - Ao compilar e executar o programa, inclua o `.jar` no classpath com o seguinte comando:
-       ```bash
+       
+     - ```bash
        javac -cp mysql-connector-java-8.0.xx.jar App.java
        java -cp mysql-connector-java-8.0.xx.jar:. App
        ```
@@ -73,12 +75,13 @@ CREATE TABLE pessoa (
 2. **Configure os parâmetros de conexão no código:**
 
    No método `criarConexao()`:
-   ```java
+   
+```java
    String url = "jdbc:mysql://localhost:3306/teste";
    String usuario = "root";
    String senha = "root";
    
-   
+```
 Substitua usuario e senha pelas credenciais do seu servidor MySQL.
 Certifique-se de que o banco de dados teste está criado e acessível na porta 3306.
 
@@ -103,3 +106,4 @@ CREATE TABLE pessoa (
     renda FLOAT
 );
       
+```

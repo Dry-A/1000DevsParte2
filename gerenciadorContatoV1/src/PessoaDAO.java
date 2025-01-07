@@ -40,26 +40,27 @@ public class PessoaDAO {
             return lista;
         }
 
-//        public static Pessoa consultarPorId(int id) throws SQLException {
-//
-//            Pessoa pessoa = null;
-//
-//            String sql = "SELECT * FROM pesssoa WHERE id = ?";
-//
-//            try(PreparedStatement comando = conexao.prepareStatement(sql)){
-//                comando.setInt(1, id);
-//                ResultSet resultado = comando.executeQuery();
-//
-//                if (resultado.next()) {
-//                    pessoa = new Pessoa(    resultado.getString("nome"),
-//                                            resultado.getString("telefone"),
-//                                            resultado.getString("email"));
-//
-//                }
-//            }
+        public static Pessoa consultarPorId(int id) throws SQLException {
 
-//            return pessoa;
-//        }
+            Pessoa pessoa = null;
+
+            String sql = "SELECT * FROM pessoa WHERE id = ?";
+
+            try(PreparedStatement comando = conexao.prepareStatement(sql)){
+
+                comando.setInt(1, id);
+                ResultSet resultado = comando.executeQuery();
+
+                if (resultado.next()) {
+                    pessoa = new Pessoa(    resultado.getString("nome"),
+                                            resultado.getString("telefone"),
+                                            resultado.getString("email"));
+
+                }
+            }
+
+            return pessoa;
+        }
     }
 
 

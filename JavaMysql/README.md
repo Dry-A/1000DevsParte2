@@ -83,11 +83,13 @@ Substitua usuario e senha pelas credenciais do seu servidor MySQL.
 Certifique-se de que o banco de dados teste está criado e acessível na porta 3306.
 
       
+      
 3. **Crie o banco de dados e a tabela:**
 
 Certifique-se de executar o script SQL abaixo no seu servidor MySQL antes de rodar o programa:
 
 ````sql
+      
 CREATE DATABASE IF NOT EXISTS teste;
 
 USE teste;
@@ -101,4 +103,3 @@ CREATE TABLE pessoa (
     renda FLOAT
 );
       
-```

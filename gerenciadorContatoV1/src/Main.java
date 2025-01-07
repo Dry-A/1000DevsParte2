@@ -1,3 +1,4 @@
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.io.IOException;
 import java.util.Scanner;
@@ -13,6 +14,18 @@ public class Main {
     private static Scanner teclado = new Scanner(System.in);
 
     public static void main(String[] args) {
+
+        try{
+            PessoaDAO.conexao = Conexao.getConexao();
+        }catch (Exception e) {
+
+            e.printStackTrace();
+            //System.out.println("Não foi possível conectar ao banco de dados");
+
+            return;
+            //e.printStackTrace();
+        }
+
         //guarda a opcao selecionada pelo usuario no menu
         int opcao;
 
@@ -79,7 +92,15 @@ public class Main {
         String email = teclado.nextLine();
 
         Pessoa novaPessoa = new Pessoa(nome, telefone, email);
-        listaContatos.add(novaPessoa);
+        //substituir por um metodo criado em pessoaDao
+        //listaContatos.add(novaPessoa);
+        try {
+            PessoaDAO.inserir(novaPessoa);
+            System.out.println("Pessoa incluída com sucesso!");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage() + " Erro ao tentar inserir os dados no Banco. Tente Novamente!");
+
+        }
         System.out.println("Contato incluído com sucesso!");
     }
 

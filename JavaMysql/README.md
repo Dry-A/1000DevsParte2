@@ -92,7 +92,7 @@ Certifique-se de que o banco de dados teste está criado e acessível na porta 3
 
 Certifique-se de executar o script SQL abaixo no seu servidor MySQL antes de rodar o programa:
 
-````
+```
       
 CREATE DATABASE IF NOT EXISTS teste;
 
@@ -108,3 +108,83 @@ CREATE TABLE pessoa (
 );
       
 ```
+
+
+4. **Compile e execute o programa:**
+
+No IntelliJ IDEA
+
+Execute o programa diretamente pelo botão Run.
+No VS Code
+Compile e execute o programa manualmente:
+
+```
+javac -cp mysql-connector-java-8.0.xx.jar App.java
+java -cp mysql-connector-java-8.0.xx.jar:. App
+```
+
+## 📂 Estrutura do Código
+
+O código está organizado em métodos estáticos para realizar as operações CRUD no banco de dados.
+
+### Métodos Principais
+
+- **`criarConexao()`**  
+  Estabelece a conexão com o banco de dados utilizando os parâmetros fornecidos.
+
+- **`consultar(int id)`**  
+  Realiza a consulta de todos os registros ou de um registro específico pelo ID.
+    - Caso `id <= 0`, retorna todos os registros.
+
+- **`inserir(String nome, String telefone, int idade, String profissao)`**  
+  Insere uma nova pessoa no banco de dados com as informações fornecidas.
+
+- **`atualizar(int id, String novoNome, String novoTelefone, String novaProfissao)`**  
+  Atualiza as informações de um registro existente baseado no ID.
+
+- **`deletar(int id)`**  
+  Remove um registro do banco de dados pelo ID.
+
+---
+
+## 🚀 Como Usar
+
+1. Certifique-se de que a configuração do projeto foi concluída com sucesso.
+2. No método `main()` do código, chame os métodos conforme necessário.
+
+
+```
+// Consultar todos os registros
+consultar(-1);
+
+// Consultar registro específico
+consultar(1);
+
+// Inserir um novo registro
+inserir("João Silva", "987654321", 30, "Engenheiro");
+
+// Atualizar um registro
+atualizar(1, "Maria Oliveira", "123456789", "Professora");
+
+// Deletar um registro
+deletar(1);
+
+```
+
+## 🛠 Compile e Execute o Programa
+
+Certifique-se de seguir os passos abaixo para compilar e executar o programa.
+
+---
+
+## 📚 Dependências
+
+- **Java 8+**
+- **MySQL Connector/J**
+- **MySQL Server**
+
+---
+
+## ❓ Dúvidas
+
+Caso tenha dúvidas ou encontre algum problema, entre em contato ou consulte a documentação do [MySQL Connector/J](https://dev.mysql.com/doc/connector-j/en/).

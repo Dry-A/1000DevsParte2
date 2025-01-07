@@ -51,7 +51,6 @@ CREATE TABLE pessoa (
 );
 
 
----
 
 ## ⚙️ Configuração do Projeto
 
@@ -78,3 +77,26 @@ CREATE TABLE pessoa (
    String url = "jdbc:mysql://localhost:3306/teste";
    String usuario = "root";
    String senha = "root";
+   
+   
+Substitua usuario e senha pelas credenciais do seu servidor MySQL.
+Certifique-se de que o banco de dados teste está criado e acessível na porta 3306.
+
+3. **Crie o banco de dados e a tabela:**
+
+Certifique-se de executar o script SQL abaixo no seu servidor MySQL antes de rodar o programa:
+
+````sql
+CREATE DATABASE IF NOT EXISTS teste;
+
+USE teste;
+
+CREATE TABLE pessoa (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100),
+    telefone VARCHAR(15),
+    idade INT,
+    profissao VARCHAR(50),
+    renda FLOAT
+);
+```

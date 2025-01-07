@@ -15,6 +15,7 @@ public class Main {
 
     private static Scanner teclado = new Scanner(System.in);
 
+
     public static void main(String[] args) {
 
         try{
@@ -36,6 +37,15 @@ public class Main {
 
             e.printStackTrace();
             System.out.println("Eita bebê, a consulta por id miou 🐈‍⬛");
+        }
+
+        //testando o consultaPorNome
+        try{
+            System.out.println(PessoaDAO.consultarPorNome("Vini"));
+
+        }catch (SQLException e){
+            e.printStackTrace();
+            System.out.println("Xiii, a consulta por nome não deu certo 🦭");
         }
 
         //guarda a opcao selecionada pelo usuario no menu

@@ -41,13 +41,11 @@ public class PessoaDAO {
         }
 
         public static Pessoa consultarPorId(int id) throws SQLException {
-
             Pessoa pessoa = null;
 
             String sql = "SELECT * FROM pessoa WHERE id = ?";
 
             try(PreparedStatement comando = conexao.prepareStatement(sql)){
-
                 comando.setInt(1, id);
                 ResultSet resultado = comando.executeQuery();
 
@@ -59,6 +57,25 @@ public class PessoaDAO {
             }
 
             return pessoa;
+        }
+
+        public static Pessoa consultarPorNome(String nome) throws SQLException {
+            Pessoa pessoa = null;
+            String sql = "SELECT * FROM pessoa WHERE nome = ?";
+
+            try(PreparedStatement comando = conexao.prepareStatement(sql)){
+                //aqui eu estabeleço o que vai no primeiro sinaal de interrogaçao
+                comando.setString(1, nome);
+                ResultSet resultado = comando.executeQuery();
+
+                if (resultado.next()) {
+                    pessoa = new Pessoa( resultado.getString("nome"),
+                                         resultado.getString("telefone"),
+                                         resultado.getString("email"));
+                }
+            }
+            return pessoa;
+
         }
     }
 

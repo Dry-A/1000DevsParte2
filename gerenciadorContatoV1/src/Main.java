@@ -1,3 +1,5 @@
+import org.w3c.dom.ls.LSOutput;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.io.IOException;
@@ -96,12 +98,12 @@ public class Main {
         //listaContatos.add(novaPessoa);
         try {
             PessoaDAO.inserir(novaPessoa);
-            System.out.println("Pessoa incluída com sucesso!");
+            System.out.println("Pessoa incluída com sucesso ⭐🙂!");
         } catch (SQLException e) {
-            System.out.println(e.getMessage() + " Erro ao tentar inserir os dados no Banco. Tente Novamente!");
+            System.out.println(e.getMessage() + " Puxa vida, erro ao tentar inserir os dados no Banco 😵‍💫. Vamos tentar novamente? 🤓");
 
         }
-        System.out.println("Contato incluído com sucesso!");
+        System.out.println("Mais um log ➡️ Contato incluído com sucesso!");
     }
 
     private static void alterarContato() {
@@ -141,17 +143,28 @@ public class Main {
     }
 
     private static void consultarContatos() {
-        //metodo isEmpty verifica se a lista esta vazia
-        if (listaContatos.isEmpty()) {
-            System.out.println("Nenhum contato cadastrado.");
-        } else {
-            System.out.println("\n--- Lista de Contatos ---");
-            for (Pessoa pessoa : listaContatos) {
-                System.out.println(pessoa);
+
+        ArrayList<Pessoa> contatos = new ArrayList<Pessoa>();
+
+        try {
+            contatos = PessoaDAO.consultarTodosContatos();
+            //metodo isEmpty verifica se a lista esta vazia
+            if (contatos.isEmpty()) {
+                System.out.println("Nenhum contato cadastrado.");
+            } else {
+                System.out.println("\n--- Lista de Contatos ---");
+                for (Pessoa pessoa : contatos) {
+                    System.out.println(pessoa);
+                }
             }
+        } catch (SQLException e) {
+            System.out.println("Xii, houve um erro ao consultar os dados no Banco de Dados. Tente novamente!");
+            System.out.println("Erro do sistema 😭:" + e.getMessage());
         }
+
         pausa();
     }
+
 
     private static void excluirContato() {
         //obtem o id do contato;

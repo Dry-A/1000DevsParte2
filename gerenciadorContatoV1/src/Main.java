@@ -197,7 +197,8 @@ public class Main {
         limparTela();
 
         //busca a pessoa especificada pelo id
-        Pessoa pessoa = encontrarContatoPorId(id);
+        Pessoa pessoa = null;
+                //= encontrarContatoPorId(id);
 
         if (pessoa != null) {
 
@@ -255,29 +256,39 @@ public class Main {
         int id = teclado.nextInt();
         teclado.nextLine(); // Consumir quebra de linha
 
-        //encontra o contato
-        Pessoa pessoa = encontrarContatoPorId(id);
+        try {
+            int resultado = PessoaDAO.excluirPorId(id);
+            if (resultado == 0)
+                System.out.println("🤨 Nenhum registro foi excluído pois este id não existe no banco. Tente outro 🛀🏼!");
+            else
+                System.out.println("Uhull 😁 Registro excluído com sucesso!");
 
-        //excluir o contato
-        if (pessoa != null) {
-            listaContatos.remove(pessoa);
-            System.out.println("Contato excluído com sucesso!");
-        } else {
-            System.out.println("Contato não encontrado.");
+        } catch (SQLException e) {
+            System.out.println("O-ou 😔. Erro ao excluir este id do Banco de Dados. Tente novamente 🛀🏼!");
+            System.out.println("Dá uma olhada na mensagem do sistema: " + e.getMessage());
         }
+
+
+//        //excluir o contato
+//        if (pessoa != null) {
+//            listaContatos.remove(pessoa);
+//            System.out.println("Contato excluído com sucesso!");
+//        } else {
+//            System.out.println("Contato não encontrado.");
+//        }
     }
 
-    private static Pessoa encontrarContatoPorId(int id) {
-        //varre o array list para encontrar o id pesquisado
-        for (Pessoa pessoa : listaContatos) {
-            if (pessoa.getId() == id) {
-                //encontrou retorna o objeto pessoa
-                return pessoa;
-            }
-        }
-        //se chegou até aqui não existe este id
-        return null;
-    }
+//    private static Pessoa encontrarContatoPorId(int id) {
+//        //varre o array list para encontrar o id pesquisado
+//        for (Pessoa pessoa : listaContatos) {
+//            if (pessoa.getId() == id) {
+//                //encontrou retorna o objeto pessoa
+//                return pessoa;
+//            }
+//        }
+//        //se chegou até aqui não existe este id
+//        return null;
+//    }
 
 
     private static void limparTela() {

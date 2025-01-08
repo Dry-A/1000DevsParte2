@@ -32,7 +32,8 @@ public class PessoaDAO {
                  ){
 
                 while (resultado.next()) {
-                    lista.add(new Pessoa(   resultado.getString("nome"),
+                    lista.add(new Pessoa(   resultado.getInt("id"),
+                                            resultado.getString("nome"),
                                             resultado.getString("telefone"),
                                             resultado.getString("email")));
                 }
@@ -59,22 +60,25 @@ public class PessoaDAO {
             return pessoa;
         }
 
-        public static Pessoa consultarPorNome(String nome) throws SQLException {
-            Pessoa pessoa = null;
-            String sql = "SELECT * FROM pessoa WHERE nome = ?";
+        public static ArrayList<Pessoa> consultarPorNome(String nome) throws SQLException {
+            ArrayList<Pessoa> lista = new ArrayList<>();
 
-            try(PreparedStatement comando = conexao.prepareStatement(sql)){
+            String sql = "SELECT * FROM pessoa WHERE nome like ?";
+
+            try(PreparedStatement comando = conexao.prepareStatement(sql)) {
                 //aqui eu estabeleço o que vai no primeiro sinaal de interrogaçao
-                comando.setString(1, nome);
-                ResultSet resultado = comando.executeQuery();
+                comando.setString(1, "%" + nome + "%");
 
-                if (resultado.next()) {
-                    pessoa = new Pessoa( resultado.getString("nome"),
-                                         resultado.getString("telefone"),
-                                         resultado.getString("email"));
+                try (ResultSet resultado = comando.executeQuery()) {
+
+                    while (resultado.next()) {
+                        lista.add( new Pessoa(resultado.getString("nome"),
+                                                resultado.getString("telefone"),
+                                                resultado.getString("email")));
+                    }
                 }
             }
-            return pessoa;
+            return lista;
 
         }
     }

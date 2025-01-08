@@ -1,6 +1,4 @@
 public class Pessoa {
-
-    public static int contador;
     private int id;
     private String nome;
     private String telefone;
@@ -8,8 +6,13 @@ public class Pessoa {
 
     //construtor da classe pessoa
     public Pessoa(String nome, String telefone, String email) {
-        contador++;
-        this.id = contador;
+        setNome(nome);
+        setTelefone(telefone);
+        setEmail(email);
+    }
+
+    public Pessoa(int id, String nome, String telefone, String email) {
+        setId(id);
         setNome(nome);
         setTelefone(telefone);
         setEmail(email);
@@ -18,6 +21,11 @@ public class Pessoa {
     public int getId() {
         return id;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 
     public void setNome(String nome) {
         //aqui implementariamos as validações necessárias

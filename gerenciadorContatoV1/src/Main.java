@@ -29,7 +29,6 @@ public class Main {
             //e.printStackTrace();
         }
 
-        //testando o consultaPorId
         try {
             System.out.println(PessoaDAO.consultarPorId(1));
 
@@ -39,7 +38,6 @@ public class Main {
             System.out.println("Eita bebê, a consulta por id miou 🐈‍⬛");
         }
 
-        //testando o consultaPorNome
         try{
             System.out.println(PessoaDAO.consultarPorNome("Vini"));
 
@@ -58,7 +56,7 @@ public class Main {
 
             //executa a funcionalidade conforme escolhido pelo usuario
             processarEscolhaMenu(opcao);
-        } while (opcao != 5);
+        } while (opcao != 8);
     }
 
     private static void processarEscolhaMenu(int opcao) {
@@ -74,15 +72,77 @@ public class Main {
                 consultarContatos();
                 break;
             case 4:
-                excluirContato();
+                consultarContatoPorId();
                 pausa();
                 break;
             case 5:
+                consultarContatoPorNome();
+                break;
+            case 6:
+                consultarContatoPorEmail();
+                break;
+            case 7:
+                excluirContato();
+                pausa();
+                break;
+            case 8:
                 System.out.println("Saindo do sistema...");
                 break;
             default:
                 System.out.println("Opção inválida. Tente novamente.");
         }
+    }
+
+    private static void consultarContatoPorEmail() {
+
+    }
+
+    private static void consultarContatoPorId() {
+        int id;
+        Pessoa pessoa = null;
+
+        System.out.println("Informe o Id do Contato a ser exibido");
+        id = teclado.nextInt();
+        teclado.nextLine();
+
+        try {
+            pessoa = PessoaDAO.consultarPorId(id);
+            if (pessoa != null)
+                System.out.println(pessoa);
+            else
+                System.out.println("Não localizamos nenhum contato com esse id 👎🏼... Tente outro");
+            System.out.println(PessoaDAO.consultarPorId(id));
+        } catch (SQLException e) {
+            System.out.println("👎🏼 Erro ao consultar o id do Contato");
+            System.out.println("⚠️ Mensagem do Sistema: " + e.getMessage());
+        }
+
+
+    }
+
+    private static void consultarContatoPorNome() {
+        String nome;
+        ArrayList<Pessoa> contatos = new ArrayList<>();
+
+        System.out.println("Informe o nome ou parte do nome do Contato a ser exibido");
+        nome = teclado.nextLine();
+
+        try {
+            contatos = PessoaDAO.consultarPorNome(nome);
+            if (contatos.isEmpty())
+                System.out.println("Não existe contato com esse nome");
+
+            else
+                for (Pessoa pessoa : contatos){
+                    System.out.println(pessoa);
+                }
+
+        } catch (SQLException e) {
+            System.out.println("👎🏼 Erro ao consultar o nome do Contato");
+            System.out.println("⚠️ Mensagem do Sistema: " + e.getMessage());
+
+        }
+
     }
 
     private static int obterEscolhaMenu() {
@@ -92,9 +152,12 @@ public class Main {
 
         System.out.println("1. Incluir Contato");
         System.out.println("2. Alterar Contato");
-        System.out.println("3. Consultar Contatos");
-        System.out.println("4. Excluir Contato");
-        System.out.println("5. Sair");
+        System.out.println("3. Consultar Todos os Contatos");
+        System.out.println("4. Consultar Contato por Id");
+        System.out.println("5. Consultar Contato por nome");
+        System.out.println("6. Consultar Contato por email");
+        System.out.println("7. Excluir Contato");
+        System.out.println("8. Sair");
 
         System.out.print("\nEscolha uma opção: ");
         opcao = teclado.nextInt();

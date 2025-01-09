@@ -11,9 +11,7 @@ public class Main {
     //separação não sendo necessário termos tanta proteção às variaveis do
     //programa principal
 
-    private static ArrayList<Pessoa> listaContatos = new ArrayList<Pessoa>();
-
-    private static Scanner teclado = new Scanner(System.in);
+   private static Scanner teclado = new Scanner(System.in);
 
 
     public static void main(String[] args) {
@@ -93,6 +91,48 @@ public class Main {
         }
     }
 
+    private static int obterEscolhaMenu() {
+        int opcao;
+
+        System.out.println("\n--- Menu de Gerenciamento de Contatos ---\n");
+
+        System.out.println("1. Incluir Contato");
+        System.out.println("2. Alterar Contato");
+        System.out.println("3. Consultar Todos os Contatos");
+        System.out.println("4. Consultar Contato por Id");
+        System.out.println("5. Consultar Contato por nome");
+        System.out.println("6. Consultar Contato por email");
+        System.out.println("7. Excluir Contato");
+        System.out.println("8. Sair");
+        System.out.print("\nEscolha uma opção: ");
+        opcao = teclado.nextInt();
+        teclado.nextLine(); // Limpeza buffer
+
+        return opcao;
+    }
+
+    private static void consultarContatos() {
+
+        ArrayList<Pessoa> listaContatos = new ArrayList<Pessoa>();
+
+        try {
+            listaContatos = PessoaDAO.consultarTodosContatos();
+            //metodo isEmpty verifica se a lista esta vazia
+            if (listaContatos.isEmpty()) {
+                System.out.println("Nenhum contato cadastrado.");
+            } else {
+                System.out.println("\n--- Lista de Contatos ---");
+                for (Pessoa pessoa : listaContatos) {
+                    System.out.println(pessoa);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Xii, houve um erro ao consultar os dados no Banco de Dados. Tente novamente!");
+            System.out.println("Erro do sistema 😭:" + e.getMessage());
+        }
+        pausa();
+    }
+
     private static void consultarContatoPorEmail() {
         System.out.println("Informe o email do Contato a ser exibido:");
         String email = teclado.nextLine();
@@ -135,18 +175,18 @@ public class Main {
 
     private static void consultarContatoPorNome() {
         String nome;
-        ArrayList<Pessoa> contatos = new ArrayList<>();
+        ArrayList<Pessoa> listaContatos = new ArrayList<>();
 
         System.out.println("Informe o nome ou parte do nome do Contato a ser exibido");
         nome = teclado.nextLine();
 
         try {
-            contatos = PessoaDAO.consultarPorNome(nome);
-            if (contatos.isEmpty())
+            listaContatos = PessoaDAO.consultarPorNome(nome);
+            if (listaContatos.isEmpty())
                 System.out.println("Não existe contato com esse nome");
 
             else
-                for (Pessoa pessoa : contatos){
+                for (Pessoa pessoa : listaContatos){
                     System.out.println(pessoa);
                 }
 
@@ -154,27 +194,6 @@ public class Main {
             System.out.println("👎🏼 Erro ao consultar o nome do Contato");
             System.out.println("⚠️ Mensagem do Sistema: " + e.getMessage());
         }
-    }
-
-    private static int obterEscolhaMenu() {
-        int opcao;
-
-        System.out.println("\n--- Menu de Gerenciamento de Contatos ---\n");
-
-        System.out.println("1. Incluir Contato");
-        System.out.println("2. Alterar Contato");
-        System.out.println("3. Consultar Todos os Contatos");
-        System.out.println("4. Consultar Contato por Id");
-        System.out.println("5. Consultar Contato por nome");
-        System.out.println("6. Consultar Contato por email");
-        System.out.println("7. Excluir Contato");
-        System.out.println("8. Sair");
-
-        System.out.print("\nEscolha uma opção: ");
-        opcao = teclado.nextInt();
-        teclado.nextLine(); // Limpeza buffer
-
-        return opcao;
     }
 
     private static void incluirContato() {
@@ -255,30 +274,6 @@ public class Main {
         pausa();
     }
 
-
-    private static void consultarContatos() {
-
-        ArrayList<Pessoa> contatos = new ArrayList<Pessoa>();
-
-        try {
-            contatos = PessoaDAO.consultarTodosContatos();
-            //metodo isEmpty verifica se a lista esta vazia
-            if (contatos.isEmpty()) {
-                System.out.println("Nenhum contato cadastrado.");
-            } else {
-                System.out.println("\n--- Lista de Contatos ---");
-                for (Pessoa pessoa : contatos) {
-                    System.out.println(pessoa);
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Xii, houve um erro ao consultar os dados no Banco de Dados. Tente novamente!");
-            System.out.println("Erro do sistema 😭:" + e.getMessage());
-        }
-        pausa();
-    }
-
-
     private static void excluirContato() {
         //obtem o id do contato;
         System.out.print("Digite o ID do contato a ser excluído: ");
@@ -344,7 +339,6 @@ public class Main {
 //        //se chegou até aqui não existe este id
 //        return null;
 //    }
-
 
     private static void limparTela() {
         try {

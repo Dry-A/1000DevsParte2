@@ -94,7 +94,22 @@ public class Main {
     }
 
     private static void consultarContatoPorEmail() {
+        System.out.println("Informe o email do Contato a ser exibido:");
+        String email = teclado.nextLine();
 
+        try {
+            ArrayList<Pessoa> contatos = PessoaDAO.consultarPorEmail(email);
+            if (contatos.isEmpty()) {
+                System.out.println("Não existe contato com este e-mail.");
+            } else {
+                for (Pessoa pessoa : contatos) {
+                    System.out.println(pessoa);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao consultar contato por e-mail.");
+            System.out.println("Mensagem do Sistema: " + e.getMessage());
+        }
     }
 
     private static void consultarContatoPorId() {
@@ -111,12 +126,10 @@ public class Main {
                 System.out.println(pessoa);
             else
                 System.out.println("Não localizamos nenhum contato com esse id 👎🏼... Tente outro");
-            System.out.println(PessoaDAO.consultarPorId(id));
         } catch (SQLException e) {
             System.out.println("👎🏼 Erro ao consultar o id do Contato");
             System.out.println("⚠️ Mensagem do Sistema: " + e.getMessage());
         }
-
 
     }
 
@@ -140,9 +153,7 @@ public class Main {
         } catch (SQLException e) {
             System.out.println("👎🏼 Erro ao consultar o nome do Contato");
             System.out.println("⚠️ Mensagem do Sistema: " + e.getMessage());
-
         }
-
     }
 
     private static int obterEscolhaMenu() {
@@ -196,35 +207,54 @@ public class Main {
 
         limparTela();
 
-        //busca a pessoa especificada pelo id
+        // Busca a pessoa especificada pelo ID no banco
         Pessoa pessoa = null;
-                //= encontrarContatoPorId(id);
 
-        if (pessoa != null) {
-
-            System.out.print("Digite o novo nome (ou deixe em branco para manter): ");
-            String nome = teclado.nextLine();
-            //metodo isBlank retorna true se a string estiver vazia
-            //é equivalente a fazer nome.equals("");
-            if (!nome.isBlank())
-                pessoa.setNome(nome);
-
-            System.out.print("Digite o novo telefone (ou deixe em branco para manter): ");
-            String telefone = teclado.nextLine();
-            if (!telefone.isBlank())
-                pessoa.setTelefone(telefone);
-
-            System.out.print("Digite o novo email (ou deixe em branco para manter): ");
-            String email = teclado.nextLine();
-            if (!email.isBlank())
-                pessoa.setEmail(email);
-
-            System.out.println("Contato alterado com sucesso!");
-        } else {
-            System.out.println("Contato não encontrado.");
-            pausa();
+        try {
+            pessoa = PessoaDAO.consultarPorId(id);
+            if (pessoa != null)
+                System.out.println(pessoa);
+            else
+                System.out.println("Não localizamos nenhum contato com esse id 👎🏼... Tente outro");
+        } catch (SQLException e) {
+            System.out.println("👎🏼 Erro ao consultar o id do Contato");
+            System.out.println("⚠️ Mensagem do Sistema: " + e.getMessage());
         }
+
+
+        // Solicitar atualizações ao usuário
+        System.out.println("Nome atual --> " + pessoa.getNome());
+        System.out.print("Digite o novo nome (ou deixe em branco para manter): ");
+        String nome = teclado.nextLine();
+        if (!nome.isBlank()) pessoa.setNome(nome);
+
+        System.out.println("Telefone atual --> " + pessoa.getTelefone());
+        System.out.print("Digite o novo telefone (ou deixe em branco para manter): ");
+        String telefone = teclado.nextLine();
+        if (!telefone.isBlank()) pessoa.setTelefone(telefone);
+
+        System.out.println("Email atual --> " + pessoa.getEmail());
+        System.out.print("Digite o novo email (ou deixe em branco para manter): ");
+        String email = teclado.nextLine();
+        if (!email.isBlank()) pessoa.setEmail(email);
+
+        // Método para alterar no PessoaDAO
+        try {
+            int resultado = PessoaDAO.atualizarContato(pessoa);
+
+            if (resultado > 0) {
+                System.out.println("🎉 Contato atualizado com sucesso!");
+            } else {
+                System.out.println("⚠️ Nenhuma alteração foi realizada. O contato pode já estar atualizado.");
+            }
+        } catch (SQLException e) {
+            System.out.println("👎🏼 Erro ao tentar atualizar o Contato");
+            System.out.println("⚠️ Mensagem do Sistema: " + e.getMessage());
+        }
+
+        pausa();
     }
+
 
     private static void consultarContatos() {
 

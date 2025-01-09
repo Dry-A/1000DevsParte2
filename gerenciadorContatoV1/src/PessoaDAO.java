@@ -51,7 +51,8 @@ public class PessoaDAO {
                 ResultSet resultado = comando.executeQuery();
 
                 if (resultado.next()) {
-                    pessoa = new Pessoa(    resultado.getString("nome"),
+                    pessoa = new Pessoa(    resultado.getInt("id"),
+                                            resultado.getString("nome"),
                                             resultado.getString("telefone"),
                                             resultado.getString("email"));
                 }
@@ -82,11 +83,51 @@ public class PessoaDAO {
             return lista;
         }
 
+    public static ArrayList<Pessoa> consultarPorEmail(String email) throws SQLException {
+        ArrayList<Pessoa> lista = new ArrayList<>();
+        String sql = "SELECT * FROM pessoa WHERE email = ?";
+
+        try (PreparedStatement comando = conexao.prepareStatement(sql)) {
+            comando.setString(1, email);
+            try (ResultSet resultado = comando.executeQuery()) {
+                while (resultado.next()) {
+                    lista.add(new Pessoa(
+                            resultado.getString("nome"),
+                            resultado.getString("telefone"),
+                            resultado.getString("email")
+                    ));
+                }
+            }
+        }
+        return lista;
+    }
+
+
         public static int excluirPorId(int id) throws SQLException {
             String sql = "DELETE FROM pessoa WHERE id = ?";
 
             try(PreparedStatement comando = conexao.prepareStatement(sql)) {
                 comando.setInt(1, id);
+                int resultado = comando.executeUpdate();
+                return resultado;
+            }
+        }
+
+        public static int atualizarContato(Pessoa pessoa) throws SQLException {
+            String sql = "UPDATE pessoa SET nome = ?,telefone = ?,email = ? WHERE id = ?";
+
+            try(PreparedStatement comando = conexao.prepareStatement(sql)) {
+
+                System.out.println("Atualizando contato com ID: " + pessoa.getId());
+                System.out.println("Novo Nome: " + pessoa.getNome());
+                System.out.println("Novo Telefone: " + pessoa.getTelefone());
+                System.out.println("Novo Email: " + pessoa.getEmail());
+
+                comando.setString(1, pessoa.getNome());
+                comando.setString(2, pessoa.getTelefone());
+                comando.setString(3, pessoa.getEmail());
+                comando.setInt(4, pessoa.getId());
+
                 int resultado = comando.executeUpdate();
                 return resultado;
             }

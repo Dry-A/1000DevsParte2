@@ -12,7 +12,7 @@ public class Pessoa {
     }
 
     public Pessoa(int id, String nome, String telefone, String email) {
-        setId(id);
+        this.id = id;
         setNome(nome);
         setTelefone(telefone);
         setEmail(email);

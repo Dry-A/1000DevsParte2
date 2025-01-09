@@ -245,7 +245,6 @@ public class Main {
             System.out.println("Xii, houve um erro ao consultar os dados no Banco de Dados. Tente novamente!");
             System.out.println("Erro do sistema 😭:" + e.getMessage());
         }
-
         pausa();
     }
 
@@ -256,8 +255,35 @@ public class Main {
         int id = teclado.nextInt();
         teclado.nextLine(); // Consumir quebra de linha
 
+        Pessoa pessoa;
+
+        //mostrar o id para o ususario para confirmar
+        try {
+            pessoa = PessoaDAO.consultarPorId(id);
+
+            if (pessoa != null)
+                System.out.println("Contato encontrado: \n" + pessoa);
+            else {
+                System.out.println("Xii... 😔 Não localizamos nenhum contato com esse id 👎🏼... Tente outro");
+                return;
+            }
+        } catch (SQLException e) {
+            System.out.println("👎🏼 Erro ao consultar o id do Contato");
+            System.out.println("⚠️ Mensagem do Sistema: " + e.getMessage());
+            return;
+        }
+
+        System.out.println("\nDeseja realmente excluir este contato? " + pessoa.getNome() + " [s/n]: ");
+        char resposta = teclado.nextLine().toLowerCase().charAt(0);
+
+        if (resposta == 'n') {
+            System.out.println("Exclusão Cancelada 🫡!! ");
+            return;
+        }
+
         try {
             int resultado = PessoaDAO.excluirPorId(id);
+
             if (resultado == 0)
                 System.out.println("🤨 Nenhum registro foi excluído pois este id não existe no banco. Tente outro 🛀🏼!");
             else
@@ -267,7 +293,6 @@ public class Main {
             System.out.println("O-ou 😔. Erro ao excluir este id do Banco de Dados. Tente novamente 🛀🏼!");
             System.out.println("Dá uma olhada na mensagem do sistema: " + e.getMessage());
         }
-
 
 //        //excluir o contato
 //        if (pessoa != null) {

@@ -26,7 +26,6 @@ public class ContatoController {
         return contatoService.listarTodosContatos();
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<Contato> getContatoById(@PathVariable Long id) {
         Optional<Contato> contato = contatoService.consultarContatoPorId(id);
@@ -50,6 +49,15 @@ public class ContatoController {
             return ResponseEntity.noContent().build(); // Retorna 204 se não encontrar nenhum contato
         }
         return ResponseEntity.ok(contatos); // Retorna 200 com a lista de contatos
+    }
+
+    @GetMapping("/cpf")
+    public ResponseEntity<List<Contato>> buscarPorCpf(@RequestParam String cpf){
+        List<Contato> contato = contatoService.buscarPorCpf(cpf);
+        if (contato == null) {
+            return ResponseEntity.noContent().build(); // Retorna 204 se não encontrar nenhum contato
+        }
+        return ResponseEntity.ok(contato); // Retorna 200 com o contato
     }
 
     @PostMapping

@@ -13,18 +13,31 @@ public class ContatoService {
     @Autowired
     private  ContatoRepository contatoRepository;
 
+    //findAll default em repository
     public List<Contato> listarTodosContatos(){
         return contatoRepository.findAll();
     }
 
+    //findById -  default em repository
     public Optional<Contato> consultarContatoPorId(Long id){
         return contatoRepository.findById(id);
+    }
+
+    public List<Contato> buscarPorNome(String nome){
+        return contatoRepository.findByNomeContainingIgnoreCase(nome);
+    }
+
+    public List<Contato> buscarPorEmail(String email){
+        return contatoRepository.findByEmailContainingIgnoreCase(email);
     }
 
     public List<Contato> buscarPorNomeEEmail(String nome, String email) {
         return contatoRepository.findByNomeContainingIgnoreCaseAndEmailContainingIgnoreCase(nome, email);
     }
 
+    public List<Contato> buscarPorCpf(String cpf){
+       return contatoRepository.findByCpfContainingIgnoreCase(cpf);
+    }
 
     public Contato salvarContato(Contato contato){
         return contatoRepository.save(contato);
